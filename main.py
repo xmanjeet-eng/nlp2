@@ -2,16 +2,17 @@ from flask import Flask, render_template
 from engine import FinanceEngine
 from datetime import datetime
 import pytz
+import os
 
 app = Flask(__name__)
 
 @app.route('/')
 def home():
-    # Fetch Data
+    # Attempt to fetch data
     nifty_tech = FinanceEngine.get_technical_analysis('^NSEI')
     news_data = FinanceEngine.get_sentiment('^NSEI')
     
-    # Simple Timestamp
+    # Timekeeping
     tz = pytz.timezone('Asia/Kolkata')
     ts = datetime.now(tz).strftime('%H:%M:%S')
     
@@ -21,4 +22,6 @@ def home():
                            ts=ts)
 
 if __name__ == "__main__":
-    app.run(host='0.0.0.0', port=5000)
+    # Use environment port for production
+    port = int(os.environ.get("PORT", 5000))
+    app.run(host='0.0.0.0', port=port)
