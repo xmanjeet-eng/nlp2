@@ -8,12 +8,13 @@ app = Flask(__name__)
 
 @app.route('/')
 def home():
-    # Fetch data on request
+    # Primary data pull
     nifty_tech = FinanceEngine.get_technical_analysis('^NSEI')
     news_data = FinanceEngine.get_sentiment('^NSEI')
     
+    # Global time
     tz = pytz.timezone('Asia/Kolkata')
-    ts = datetime.now(tz).strftime('%H:%M:%S')
+    ts = datetime.now(tz).strftime('%Y-%m-%d %H:%M:%S')
     
     return render_template('index.html', 
                            nifty=nifty_tech, 
