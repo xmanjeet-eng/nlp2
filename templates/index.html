@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Market Terminal</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <style>
+        body { background: #0b0e11; color: white; padding: 20px; }
+        .card { background: #1e2329; color: white; border: 1px solid #333; margin-bottom: 15px; }
+        .BULLISH { color: #0ecb81; } .BEARISH { color: #f6465d; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2 class="mb-4">Live Insights <small class="text-secondary fs-6">{{ ts }}</small></h2>
+        
+        <div class="row">
+            <div class="col-md-6">
+                <div class="card p-3">
+                    <h4>NIFTY 50 Technical</h4>
+                    {% if nifty %}
+                        <h2 class="text-warning">₹{{ nifty.price }}</h2>
+                        <p>RSI: {{ nifty.rsi }} | <strong>{{ nifty.signal }}</strong></p>
+                    {% else %}
+                        <p>Data Unavailable</p>
+                    {% endif %}
+                </div>
+            </div>
+            
+            <div class="col-md-6">
+                <div class="card p-3">
+                    <h4>Market Sentiment</h4>
+                    <h2 class="{{ news.label }}">{{ news.label }}</h2>
+                    <p>Aggregated Score: {{ news.avg }}</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="card p-3">
+            <h4>Latest Headlines</h4>
+            {% for item in news.list %}
+                <div class="py-2 border-bottom border-secondary">
+                    <span class="badge {{ 'bg-success' if item.score > 0 else 'bg-danger' if item.score < 0 else 'bg-secondary' }}">
+                        {{ item.score }}
+                    </span>
+                    {{ item.title }}
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+</body>
+</html>
