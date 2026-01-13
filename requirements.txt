@@ -5,3 +5,5 @@ pandas_ta
 nltk
 pytz
 gunicorn
+requests 
+lxml
